@@ -15,10 +15,8 @@ export const useFetchPullRequestFromRefTag = ({
   return useQuery({
     queryKey: ["PrFromRefTag", organization, repository, tag],
     enabled,
-    queryFn: async ({ queryKey: [, organization, repository, tag] }) => {
-      console.log(tag);
-
-      return await getRefTag({ organization, repository, tag })
+    queryFn: async ({ queryKey: [, organization, repository, tag] }) =>
+      await getRefTag({ organization, repository, tag })
         .then((refTag) =>
           getTag({ organization, repository, tag: refTag.object.sha }).then(
             (tag) =>
@@ -29,7 +27,6 @@ export const useFetchPullRequestFromRefTag = ({
               })
           )
         )
-        .then(({ items: [pullRequest] }) => pullRequest);
-    },
+        .then(({ items: [pullRequest] }) => pullRequest),
   });
 };

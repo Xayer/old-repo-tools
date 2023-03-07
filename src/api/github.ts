@@ -1,3 +1,5 @@
+import { getGithubAuthHeader, getTokenFromStorage } from "@/config";
+
 export type GithubRefTag = {
   ref: string;
   node_id: string;
@@ -64,7 +66,7 @@ export const getTags = async ({
     `https://api.github.com/repos/${organization}/${repository}/git/refs/tags`,
     {
       headers: {
-        Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+        Authorization: getGithubAuthHeader(),
       },
     }
   ).then(async (response) => {
@@ -100,7 +102,7 @@ export const getTag = async ({
     `https://api.github.com/repos/${organization}/${repository}/git/tags/${tag}`,
     {
       headers: {
-        Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+        Authorization: getGithubAuthHeader(),
       },
     }
   ).then(async (response) => {
@@ -108,7 +110,7 @@ export const getTag = async ({
       // only return the general tags, and not the web-design-token, web-ui, and web-portal specific tags
       return await response.json();
     } else {
-      throw new Error(response.statusText);
+      throw new Error("Failed to fetch tags");
     }
   });
 };
@@ -126,7 +128,7 @@ export const getRefTag = async ({
     `https://api.github.com/repos/${organization}/${repository}/git/refs/tags/${tag}`,
     {
       headers: {
-        Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+        Authorization: getGithubAuthHeader(),
       },
     }
   ).then(async (response) => {
@@ -134,7 +136,7 @@ export const getRefTag = async ({
       // only return the general tags, and not the web-design-token, web-ui, and web-portal specific tags
       return (await response.json()) as GithubRefTag[];
     } else {
-      throw new Error(response.statusText);
+      throw new Error("Failed to fetch ref tags");
     }
   });
 };
@@ -154,14 +156,14 @@ export const getIssuesFromCommit = async ({
     `https://api.github.com/search/issues?q=repo:${organization}/${repository}+sha:${commit}`,
     {
       headers: {
-        Authorization: `token ${import.meta.env.VITE_GITHUB_TOKEN}`,
+        Authorization: getGithubAuthHeader(),
       },
     }
   ).then(async (response) => {
     if (response.status === 200) {
       return (await response.json()) as { items: PullRequest[] };
     } else {
-      throw new Error(response.statusText);
+      throw new Error("Failed to fetch issues from commit");
     }
   });
 };

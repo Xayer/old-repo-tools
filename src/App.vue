@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import Sidebar from "./components/Sidebar.vue";
+import AuthGuard from "./components/AuthGuard.vue";
 </script>
 
 <template>
   <Sidebar />
 
   <main>
-    <RouterView />
+    <AuthGuard>
+      <RouterView />
+    </AuthGuard>
   </main>
 </template>
 
