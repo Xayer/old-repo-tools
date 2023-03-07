@@ -39,15 +39,16 @@ const parsedPullRequestInfo = computed(() => {
       .join("\n   ");
     return `- ${currentTag.value}\n   -${changes}`;
   }
+  return "Unable to get PR info";
 });
 </script>
 
 <template>
   <main>
-    <div v-if="isLoading || isFetching"><Loader /></div>
     <h1>{{ currentTag }}</h1>
+    <div v-if="isLoading || isFetching"><Loader /></div>
+    <pre v-else>{{ parsedPullRequestInfo || "Unable to get PR info" }}</pre>
     <div v-if="isError">Error: {{ error }}</div>
-    <pre>{{ parsedPullRequestInfo }}</pre>
   </main>
 </template>
 
