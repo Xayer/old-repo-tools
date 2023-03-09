@@ -10,7 +10,7 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: "/tags/:tag",
+      path: "/:organization/:repository/tags/:tag",
       name: "tag",
       component: () => import("@/views/Tag.vue"),
     },

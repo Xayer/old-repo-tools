@@ -1,63 +1,15 @@
 <script setup>
-import { useFetchRefTag } from "@/queries/tags";
-import { useFetchIssues } from "@/queries/issues";
-import { useFetchPullRequestFromRefTag } from "@/queries/pullRequests";
-import WelcomeItem from "@/components/WelcomeItem.vue";
-import ToolingIcon from "@/components/icons/IconTooling.vue";
-import { useRoute } from "vue-router";
+import Tag from "@/components/Tag.vue";
 import { computed } from "vue";
-import Loader from "@/components/Loader.vue";
+import { useRoute } from "vue-router";
 
-const route = useRoute();
-const currentTag = computed(() => route.params.tag);
-
-const { isLoading, isFetching, isError, data } = useFetchRefTag({
-  organization: "cardlay",
-  repository: "web",
-  tag: currentTag,
-});
-
-const { data: pullRequestData } = useFetchPullRequestFromRefTag({
-  organization: "cardlay",
-  repository: "web",
-  tag: currentTag,
-  enabled: !!currentTag,
-});
-
-const parsedPullRequestInfo = computed(() => {
-  const body = pullRequestData.value?.body;
-  if (!body) return null;
-  const regex = /Changes in this PR:\r\n\r\n([\s\S]*?)(?=✂|$)/;
-  const match = body.match(regex);
-
-  if (match) {
-    const changes = match[1]
-      .trim()
-      .replace("-", "")
-      .split(/\r\n/g)
-      .filter(Boolean)
-      .join("\n   ");
-    return `- ${currentTag.value}\n   -${changes}`;
-  }
-  return "Unable to get PR info";
-});
+const repository = computed(() => useRoute().params.repository);
+const organization = computed(() => useRoute().params.organization);
+const tag = computed(() => useRoute().params.tag);
 </script>
 
 <template>
   <main>
-    <h1>{{ currentTag }}</h1>
-    <div v-if="isLoading || isFetching"><Loader /></div>
-    <pre v-else>{{ parsedPullRequestInfo || "Unable to get PR info" }}</pre>
-    <div v-if="isError">Error: {{ error }}</div>
+    <Tag :repository="repository" :organization="organization" :tag="tag" />
   </main>
 </template>
-
-<style>
-pre {
-  background: #f6f8fa;
-  color: #24292e;
-  padding: 1rem;
-  max-width: 100%;
-  white-space: pre-wrap;
-}
-</style>

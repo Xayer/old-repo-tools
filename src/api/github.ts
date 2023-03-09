@@ -62,6 +62,9 @@ export const getTags = async ({
   organization: string;
   repository: string;
 }) => {
+  if (!organization || !repository)
+    return Promise.reject("organization or repository is missing");
+
   return await fetch(
     `https://api.github.com/repos/${organization}/${repository}/git/refs/tags`,
     {
@@ -84,7 +87,7 @@ export const getTags = async ({
         return acc;
       }, []) as GithubTag[];
     } else {
-      throw new Error(response.statusText);
+      throw new Error("failed to fetch tags");
     }
   });
 };
@@ -136,7 +139,7 @@ export const getRefTag = async ({
       // only return the general tags, and not the web-design-token, web-ui, and web-portal specific tags
       return (await response.json()) as GithubRefTag[];
     } else {
-      throw new Error("Failed to fetch ref tags");
+      throw new Error("Failed to fetch ref tag");
     }
   });
 };

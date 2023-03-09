@@ -4,16 +4,19 @@ import { useQuery } from "@tanstack/vue-query";
 export const useFetchTags = ({
   organization,
   repository,
+  enabled,
 }: {
   organization: string;
   repository: string;
+  enabled: boolean;
 }) => {
-  return useQuery(
-    ["tags", organization, repository],
-    async ({ queryKey: [, organization, repository] }) => {
+  return useQuery({
+    queryKey: ["tags", organization, repository],
+    queryFn: async ({ queryKey: [, organization, repository] }) => {
       return (await getTags({ organization, repository })).reverse();
-    }
-  );
+    },
+    enabled,
+  });
 };
 
 export const useFetchTag = ({

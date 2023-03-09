@@ -16,7 +16,8 @@ span:before {
   bottom: 0;
   height: 100%;
   transform-origin: center;
-  animation: fadeWidth ease-out 1000ms infinite;
+  animation-delay: 0ms;
+  animation: fadeWidth ease 1000ms infinite;
   opacity: 0;
 }
 @keyframes fadeWidth {

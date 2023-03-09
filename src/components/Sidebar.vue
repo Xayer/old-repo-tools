@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import Tags from "@/components/Tags.vue";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
+const repository = computed(() => useRoute().params.repository);
+const organization = computed(() => useRoute().params.organization);
 </script>
 
 <template>
@@ -8,7 +13,7 @@ import Tags from "@/components/Tags.vue";
     <h4>Because we all hate our manual deployments</h4>
     <hr />
 
-    <Tags organization="cardlay" repository="web" />
+    <Tags :organization="organization" :repository="repository" />
   </aside>
 </template>
 
