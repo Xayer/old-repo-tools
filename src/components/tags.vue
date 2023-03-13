@@ -9,14 +9,12 @@ const props = defineProps(["organization", "repository"]);
 const organization = computed(() => props.organization);
 const repository = computed(() => props.repository);
 
-const enableQuery = computed(() => !!organization && !!repository);
-
-console.log({ enableQuery: enableQuery.value });
+const enableQuery = computed(() => !!organization.value && !!repository.value);
 
 const { isLoading, isFetching, isError, data, error } = useFetchTags({
   organization: organization,
   repository: repository,
-  enabled: enableQuery.value,
+  enabled: enableQuery,
 });
 </script>
 <template>

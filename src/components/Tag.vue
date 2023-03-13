@@ -1,7 +1,10 @@
 <script setup>
 import { useFetchRefTag } from "@/queries/tags";
 import { useFetchIssues } from "@/queries/issues";
-import { useFetchPullRequestFromRefTag } from "@/queries/pullRequests";
+import {
+  useFetchPullRequestFromRefTag,
+  useFetchCommentsWithTests,
+} from "@/queries/pullRequests";
 import WelcomeItem from "@/components/WelcomeItem.vue";
 import ToolingIcon from "@/components/icons/IconTooling.vue";
 import { useRoute } from "vue-router";
@@ -13,47 +16,80 @@ const props = defineProps(["organization", "repository", "tag"]);
 const organization = computed(() => props.organization);
 const repository = computed(() => props.repository);
 const currentTag = computed(() => props.tag);
+const pullRequestLink = computed(() =>
+  !pullRequestData.value ? null : pullRequestData?.value.html_url
+);
+const jiraTasks = computed(() => {
+  return pullRequestData.value?.body
+    ? pullRequestData.value?.body.match(/([A-Z]+-\d+)/g)
+    : null;
+});
+const pullRequestChanges = computed(() => {
+  if (!pullRequestData.value?.body) return null;
 
-const { isLoading, isFetching, isError, data } = useFetchRefTag({
-  organization,
-  repository,
-  tag: currentTag.value,
-  enabled: !!organization && !!repository && !!currentTag,
+  const regex = /Changes in this PR:\r\n\r\n([\s\S]*?)(?=✂|$)/;
+  const match = pullRequestData.value?.body.match(regex);
+
+  return (match && match[1]) || "";
 });
 
-const { data: pullRequestData } = useFetchPullRequestFromRefTag({
+const pullRequestReference = computed(() =>
+  pullRequestNumber.value && pullRequestLink.value ? pullRequestLink.value : ""
+);
+
+const tagDescription = computed(() => {
+  return `- ${currentTag.value} ${
+    jiraTasks.value ? `- ${jiraTasks.value.join(", ")}` : ""
+  } (${pullRequestReference.value})
+${
+  pullRequestChanges
+    ? `
+  - changes:   ${pullRequestChanges.value}`
+    : ""
+}${latestTestReport.value ? `- Test Report: ${latestTestReport.value}` : ""}`;
+});
+
+const versionLink = computed(() =>
+  !!organization.value && !!repository.value && !!currentTag.value
+    ? `https://github.com/${organization.value}/${repository.value}/releases/tag/${currentTag.value}`
+    : null
+);
+
+const latestTestReport = computed(() => {
+  return commentsWithTests.value && commentsWithTests.value?.length > 0
+    ? extractTestReportUrlFromComment(commentsWithTests.value.at(-1).body)
+    : "";
+});
+
+const pullRequestNumber = computed(() => {
+  if (!pullRequestData.value) return null;
+  return pullRequestData.value.number;
+});
+
+const {
+  data: pullRequestData,
+  isLoading,
+  isFetching,
+  isError,
+} = useFetchPullRequestFromRefTag({
   organization,
   repository,
   tag: currentTag,
-  enabled: !!organization && !!repository && !!currentTag,
+  enabled: !!organization.value && !!repository.value && !!currentTag.value,
 });
 
-const pullRequestLink = computed(() => {
-  if (!pullRequestData.value) return null;
+const extractTestReportUrlFromComment = (comment) => {
+  const linkMatch = comment.match(/Allure report: (.*)/);
 
-  return pullRequestData?.value.html_url;
-});
+  return linkMatch[1] ? ` - ${linkMatch[1]}` : "";
+};
 
-const versionLink = computed(() => {
-  return `https://github.com/${organization.value}/${repository.value}/releases/tag/${currentTag.value}`;
-});
-
-const parsedPullRequestInfo = computed(() => {
-  const body = pullRequestData.value?.body;
-  if (!body) return null;
-  const regex = /Changes in this PR:\r\n\r\n([\s\S]*?)(?=✂|$)/;
-  const match = body.match(regex);
-
-  if (match) {
-    const changes = match[1]
-      .trim()
-      .replace("-", "")
-      .split(/\r\n/g)
-      .filter(Boolean)
-      .join("\n   ");
-    return `- ${currentTag.value}\n   -${changes}`;
-  }
-  return `- ${currentTag.value}\n   -`;
+const { data: commentsWithTests } = useFetchCommentsWithTests({
+  organization,
+  repository,
+  pullRequestNumber: pullRequestNumber,
+  enabled:
+    !!organization.value && !!repository.value && !!pullRequestNumber.value,
 });
 </script>
 
@@ -61,16 +97,17 @@ const parsedPullRequestInfo = computed(() => {
   <header>
     <h1>{{ currentTag }}</h1>
     <nav>
-      <a :href="pullRequestLink" v-if="pullRequestLink">Pull Request</a>
       <a :href="versionLink" v-if="versionLink">Version</a>
+      <a :href="pullRequestLink" v-if="pullRequestLink">Pull Request</a>
+      <a :href="latestTestReport" v-if="latestTestReport">Test Report</a>
     </nav>
   </header>
   <div v-if="isLoading || isFetching"><Loader /></div>
-  <pre v-else>{{ parsedPullRequestInfo || "" }}</pre>
+  <pre v-else>{{ tagDescription || "" }}</pre>
   <div v-if="isError">Error: {{ error }}</div>
 </template>
 
-<style>
+<style scoped>
 pre {
   background: #f6f8fa;
   color: #24292e;
@@ -81,8 +118,8 @@ pre {
 
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin: 1rem;
+  width: 100%;
 }
 </style>

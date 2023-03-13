@@ -55,6 +55,41 @@ export interface PullRequest {
   score: number;
 }
 
+export interface Comment {
+  url: string;
+  html_url: string;
+  issue_url: string;
+  id: number;
+  node_id: string;
+  user: User;
+  created_at: string;
+  updated_at: string;
+  author_association: string;
+  body: string;
+  reactions: unknown;
+  performed_via_github_app?: null;
+}
+export interface User {
+  login: string;
+  id: number;
+  node_id: string;
+  avatar_url: string;
+  gravatar_id: string;
+  url: string;
+  html_url: string;
+  followers_url: string;
+  following_url: string;
+  gists_url: string;
+  starred_url: string;
+  subscriptions_url: string;
+  organizations_url: string;
+  repos_url: string;
+  events_url: string;
+  received_events_url: string;
+  type: string;
+  site_admin: boolean;
+}
+
 export const getTags = async ({
   organization,
   repository,
@@ -79,7 +114,7 @@ export const getTags = async ({
       return allRefs.reduce((acc, ref) => {
         const refTag = ref.ref.match(/^refs\/tags\/(v\d+\.\d+\.\d+)$/);
         if (ref.object.type === "tag" && refTag) {
-          acc.push({
+          (acc as (GithubRefTag & { name: string })[]).push({
             ...ref,
             name: refTag[1],
           });
@@ -167,6 +202,35 @@ export const getIssuesFromCommit = async ({
       return (await response.json()) as { items: PullRequest[] };
     } else {
       throw new Error("Failed to fetch issues from commit");
+    }
+  });
+};
+
+export const getCommentsFromPullRequest = async ({
+  organization,
+  repository,
+  pullRequestNumber,
+}: {
+  organization: string;
+  repository: string;
+  pullRequestNumber: string;
+}) => {
+  return await fetch(
+    `https://api.github.com/repos/${organization}/${repository}/issues/${pullRequestNumber}/comments`,
+    {
+      headers: {
+        Authorization: getGithubAuthHeader(),
+      },
+    }
+  ).then(async (response) => {
+    if (response.status === 200) {
+      return ((await response.json()) as Comment[])
+        .filter((item) => {
+          return item.user.login === "e2e-bot[bot]";
+        })
+        .filter(Boolean);
+    } else {
+      throw new Error("Failed to get comments from pull request");
     }
   });
 };

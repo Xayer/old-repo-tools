@@ -1,4 +1,9 @@
-import { getIssuesFromCommit, getRefTag, getTag } from "@/api/github";
+import {
+  getCommentsFromPullRequest,
+  getIssuesFromCommit,
+  getRefTag,
+  getTag,
+} from "@/api/github";
 import { useQuery } from "@tanstack/vue-query";
 
 export const useFetchPullRequestFromRefTag = ({
@@ -28,5 +33,38 @@ export const useFetchPullRequestFromRefTag = ({
           )
         )
         .then(({ items: [pullRequest] }) => pullRequest),
+  });
+};
+
+export const useFetchCommentsWithTests = ({
+  organization,
+  repository,
+  pullRequestNumber,
+  enabled,
+}: {
+  organization: string;
+  repository: string;
+  pullRequestNumber: string;
+  enabled: boolean;
+}) => {
+  return useQuery({
+    queryKey: [
+      "CommentsFromPullRequest",
+      organization,
+      repository,
+      pullRequestNumber,
+    ],
+    enabled,
+    queryFn: async ({
+      queryKey: [, organization, repository, pullRequestNumber],
+    }) => {
+      console.log(organization, repository, pullRequestNumber);
+
+      return await getCommentsFromPullRequest({
+        organization,
+        repository,
+        pullRequestNumber,
+      });
+    },
   });
 };

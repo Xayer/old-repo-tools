@@ -14,7 +14,7 @@ import AuthGuard from "./components/AuthGuard.vue";
   </main>
 </template>
 
-<style scoped>
+<style>
 header {
   line-height: 1.5;
   max-height: 100vh;
@@ -52,7 +52,7 @@ nav a:first-of-type {
 
 @media (min-width: 1024px) {
   header {
-    place-items: start;
+    place-items: space-between;
     padding-right: calc(var(--section-gap) / 2);
   }
 
@@ -67,7 +67,6 @@ nav a:first-of-type {
 
   nav {
     text-align: left;
-    margin-left: -1rem;
     font-size: 1rem;
 
     padding: 1rem 0;
