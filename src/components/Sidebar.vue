@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Tags from "@/components/Tags.vue";
+import Organization from "@/components/Organization.vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
@@ -10,10 +11,30 @@ const organization = computed(() => useRoute().params.organization);
 <template>
   <aside class="greetings">
     <h1 class="green">Repo Tools</h1>
-    <h4>Because we all hate our manual deployments</h4>
+    <h4>
+      <RouterLink v-if="organization" class="green" :to="`/${organization}`">
+        {{ organization }}
+      </RouterLink>
+      <template v-if="repository"> / </template>
+      <RouterLink
+        class="green"
+        v-if="repository"
+        :to="`/${organization}/${repository}`"
+      >
+        {{ repository }}
+      </RouterLink>
+    </h4>
     <hr />
 
-    <Tags :organization="organization" :repository="repository" />
+    <Tags
+      v-if="!!(organization && repository)"
+      :organization="organization"
+      :repository="repository"
+    />
+    <Organization
+      v-if="!!organization && !repository"
+      :organization="organization"
+    />
   </aside>
 </template>
 

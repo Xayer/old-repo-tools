@@ -9,7 +9,5 @@ const tag = computed(() => useRoute().params.tag);
 </script>
 
 <template>
-  <main>
-    <Tag :repository="repository" :organization="organization" :tag="tag" />
-  </main>
+  <Tag :repository="repository" :organization="organization" :tag="tag" />
 </template>

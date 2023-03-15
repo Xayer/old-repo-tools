@@ -1,37 +1,40 @@
 <script setup>
 import { useFetchTags } from "@/queries/tags";
-import { defineProps, computed, ref } from "vue";
+import { defineProps, computed } from "vue";
 import WelcomeItem from "@/components/WelcomeItem.vue";
 import Loader from "@/components/Loader.vue";
 import ToolingIcon from "@/components/icons/IconTooling.vue";
 const props = defineProps(["organization", "repository"]);
+import { useFetchAllRepositoriesForOrganization } from "@/queries/repositories";
 
 const organization = computed(() => props.organization);
-const repository = computed(() => props.repository);
 
-const enableQuery = computed(() => !!organization.value && !!repository.value);
+const enableQuery = computed(() => !!organization.value);
 
-const selectedTags = ref([]);
-
-const { isLoading, isFetching, isError, data, error } = useFetchTags({
+const {
+  isLoading,
+  isFetching,
+  isError,
+  data: repositories,
+  error,
+} = useFetchAllRepositoriesForOrganization({
   organization: organization,
-  repository: repository,
   enabled: enableQuery,
 });
 </script>
 <template>
   <div v-if="isLoading || isFetching"><Loader /></div>
   <div v-if="isError">Error: {{ error }}</div>
-  <div v-if="data">
+  <div v-if="repositories">
     <ul>
-      <WelcomeItem v-for="tag in data" :key="tag.name">
+      <WelcomeItem v-for="repository in repositories" :key="repository.name">
         <template #icon>
           <ToolingIcon />
         </template>
         <router-link
           v-if="!!organization && !!repository"
-          :to="`/${organization}/${repository}/tags/${tag.name}`"
-          >{{ tag.name }}</router-link
+          :to="`/${organization}/${repository.name}/`"
+          >{{ repository.name }}</router-link
         >
       </WelcomeItem>
     </ul>
