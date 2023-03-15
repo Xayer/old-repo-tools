@@ -36,7 +36,7 @@ export const useFetchPullRequestFromRefTag = ({
   });
 };
 
-export const useFetchCommentsWithTests = ({
+export const useFetchPullRequestCommentsWithTests = ({
   organization,
   repository,
   pullRequestNumber,

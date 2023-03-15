@@ -3,7 +3,7 @@ import { useFetchRefTag } from "@/queries/tags";
 import { useFetchIssues } from "@/queries/issues";
 import {
   useFetchPullRequestFromRefTag,
-  useFetchCommentsWithTests,
+  useFetchPullRequestCommentsWithTests,
 } from "@/queries/pullRequests";
 import WelcomeItem from "@/components/WelcomeItem.vue";
 import ToolingIcon from "@/components/icons/IconTooling.vue";
@@ -78,7 +78,7 @@ const shouldFetchComments = computed(() => {
   );
 });
 
-const { data: commentsWithTests } = useFetchCommentsWithTests({
+const { data: commentsWithTests } = useFetchPullRequestCommentsWithTests({
   organization,
   repository,
   pullRequestNumber: pullRequestNumber,
