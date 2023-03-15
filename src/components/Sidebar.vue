@@ -3,27 +3,49 @@ import Tags from "@/components/Tags.vue";
 import Organization from "@/components/Organization.vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import { useStore } from "vuex";
 
 const repository = computed(() => useRoute().params.repository);
 const organization = computed(() => useRoute().params.organization);
+const selectedTags = computed(() => useStore().state.tags.selectedTags);
+const store = useStore();
+
+const resetSelectedTags = () => {
+  store.dispatch("tags/resetTags");
+};
 </script>
 
 <template>
   <aside class="greetings">
     <h1 class="green">Repo Tools</h1>
-    <h4>
-      <RouterLink v-if="organization" class="green" :to="`/${organization}`">
-        {{ organization }}
-      </RouterLink>
-      <template v-if="repository"> / </template>
-      <RouterLink
-        class="green"
-        v-if="repository"
-        :to="`/${organization}/${repository}`"
-      >
-        {{ repository }}
-      </RouterLink>
-    </h4>
+    <header>
+      <div>
+        <nav>
+          <RouterLink
+            v-if="organization"
+            class="green"
+            :to="`/${organization}`"
+          >
+            {{ organization }}
+          </RouterLink>
+          <RouterLink
+            class="green"
+            v-if="repository"
+            :to="`/${organization}/${repository}`"
+          >
+            {{ repository }}
+          </RouterLink>
+        </nav>
+      </div>
+      <div>
+        <nav>
+          <a v-if="selectedTags.length">COMPARE</a>
+          <a @click.stop.prevent="resetSelectedTags" v-if="selectedTags.length"
+            >X</a
+          >
+        </nav>
+      </div>
+    </header>
     <hr />
 
     <Tags
@@ -59,5 +81,13 @@ h3 {
   .greetings h3 {
     text-align: left;
   }
+}
+
+aside header {
+  display: flex;
+  justify-content: space-between;
+  align-items: self-end;
+  margin-bottom: 1rem;
+  padding-right: 0;
 }
 </style>

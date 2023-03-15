@@ -13,19 +13,16 @@ const setToken = () => {
 <template>
   <div v-if="!hasToken">
     <p>
-      Create [a classic Github Access
-      Token](https://github.com/settings/tokens/new) and paste it here. Remember
-      to enable SAML if required
+      Create
+      <a href="https://github.com/settings/tokens/new"
+        >a classic Github Access Token</a
+      >
+      and paste it here. Remember to enable SAML if required
     </p>
     <form @submit.stop.prevent="setToken">
       <input type="text" v-model="newToken" />
       <button type="submit">Save</button>
     </form>
-    <pre>{{
-      {
-        newToken,
-      }
-    }}</pre>
   </div>
   <slot v-else />
 </template>

@@ -4,6 +4,4 @@ import { computed } from "vue";
 import { useRoute } from "vue-router";
 const organization = computed(() => useRoute().params.organization);
 </script>
-<template>
-  <Organization :organization="organization" />
-</template>
+<template>Select a Repository from the left</template>

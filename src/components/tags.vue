@@ -1,6 +1,7 @@
 <script setup>
 import { useFetchTags } from "@/queries/tags";
-import { defineProps, computed, ref } from "vue";
+import { defineProps, computed, ref, watch } from "vue";
+import { useStore } from "vuex";
 import WelcomeItem from "@/components/WelcomeItem.vue";
 import Loader from "@/components/Loader.vue";
 import ToolingIcon from "@/components/icons/IconTooling.vue";
@@ -11,7 +12,25 @@ const repository = computed(() => props.repository);
 
 const enableQuery = computed(() => !!organization.value && !!repository.value);
 
-const selectedTags = ref([]);
+const store = useStore();
+
+const selectedTags = computed(() => store.state.tags.selectedTags);
+
+const isTagChecked = (tag) => {
+  return (selectedTags.value || []).length > 0
+    ? selectedTags.value.includes(tag)
+    : false;
+};
+
+const updateTags = ({ target: { value, checked } }) => {
+  const newSelectedTags = [...selectedTags.value];
+  if (checked) {
+    newSelectedTags.push(value);
+  } else {
+    newSelectedTags = newSelectedTags.filter((tag) => tag !== value);
+  }
+  store.dispatch("tags/setSelectedTags", newSelectedTags);
+};
 
 const { isLoading, isFetching, isError, data, error } = useFetchTags({
   organization: organization,
@@ -28,6 +47,12 @@ const { isLoading, isFetching, isError, data, error } = useFetchTags({
         <template #icon>
           <ToolingIcon />
         </template>
+        <input
+          type="checkbox"
+          @input="updateTags"
+          :checked="isTagChecked(tag.name)"
+          :value="tag.name"
+        />
         <router-link
           v-if="!!organization && !!repository"
           :to="`/${organization}/${repository}/tags/${tag.name}`"

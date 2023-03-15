@@ -20,7 +20,8 @@
     "just-use-native-fetch": "^1.0.0",
     "vite-plugin-rewrite-all": "^1.0.1",
     "vue": "^3.2.47",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
