@@ -48,6 +48,12 @@ const router = createRouter({
       component: () => import("@/views/Tags.vue"),
       beforeEnter: authCheck,
     },
+    {
+      path: "/:organization/:repository/selected-tags/:tags",
+      name: "selected-tags",
+      component: () => import("@/views/SelectedTags.vue"),
+      beforeEnter: authCheck,
+    },
   ],
 });
 

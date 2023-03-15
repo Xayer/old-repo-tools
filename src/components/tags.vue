@@ -47,18 +47,26 @@ const { isLoading, isFetching, isError, data, error } = useFetchTags({
         <template #icon>
           <ToolingIcon />
         </template>
-        <input
-          type="checkbox"
-          @input="updateTags"
-          :checked="isTagChecked(tag.name)"
-          :value="tag.name"
-        />
-        <router-link
-          v-if="!!organization && !!repository"
-          :to="`/${organization}/${repository}/tags/${tag.name}`"
-          >{{ tag.name }}</router-link
-        >
+        <div class="tag-wrapper">
+          <router-link
+            v-if="!!organization && !!repository"
+            :to="`/${organization}/${repository}/tags/${tag.name}`"
+            >{{ tag.name }}</router-link
+          ><input
+            type="checkbox"
+            @input="updateTags"
+            :checked="isTagChecked(tag.name)"
+            :value="tag.name"
+          />
+        </div>
       </WelcomeItem>
     </ul>
   </div>
 </template>
+<style>
+.tag-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+</style>

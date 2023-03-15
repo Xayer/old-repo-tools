@@ -39,7 +39,13 @@ const resetSelectedTags = () => {
       </div>
       <div>
         <nav>
-          <a v-if="selectedTags.length">COMPARE</a>
+          <RouterLink
+            v-if="selectedTags.length"
+            :to="`/${organization}/${repository}/selected-tags/${selectedTags.join(
+              ','
+            )}`"
+            >COMPARE</RouterLink
+          >
           <a @click.stop.prevent="resetSelectedTags" v-if="selectedTags.length"
             >X</a
           >
