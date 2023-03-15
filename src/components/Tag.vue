@@ -55,12 +55,6 @@ const versionLink = computed(() =>
     : null
 );
 
-const latestTestReport = computed(() => {
-  return commentsWithTests.value && commentsWithTests.value?.length > 0
-    ? extractTestReportUrlFromComment(commentsWithTests.value.at(-1).body)
-    : "";
-});
-
 const pullRequestNumber = computed(() => {
   if (!pullRequestData.value) return null;
   return pullRequestData.value.number;
@@ -78,18 +72,23 @@ const {
   enabled: !!organization.value && !!repository.value && !!currentTag.value,
 });
 
-const extractTestReportUrlFromComment = (comment) => {
-  const linkMatch = comment.match(/Allure report: (.*)/);
-
-  return linkMatch[1] ? ` - ${linkMatch[1]}` : "";
-};
+const shouldFetchComments = computed(() => {
+  return (
+    !!organization.value && !!repository.value && !!pullRequestNumber.value
+  );
+});
 
 const { data: commentsWithTests } = useFetchCommentsWithTests({
   organization,
   repository,
   pullRequestNumber: pullRequestNumber,
-  enabled:
-    !!organization.value && !!repository.value && !!pullRequestNumber.value,
+  enabled: shouldFetchComments,
+});
+
+const latestTestReport = computed(() => {
+  return commentsWithTests.value && commentsWithTests.value?.length > 0
+    ? commentsWithTests.value.at(-1).body.match(/Allure report: (.*)/)[1] || ""
+    : "";
 });
 </script>
 

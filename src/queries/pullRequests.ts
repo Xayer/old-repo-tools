@@ -57,14 +57,11 @@ export const useFetchCommentsWithTests = ({
     enabled,
     queryFn: async ({
       queryKey: [, organization, repository, pullRequestNumber],
-    }) => {
-      console.log(organization, repository, pullRequestNumber);
-
-      return await getCommentsFromPullRequest({
+    }) =>
+      await getCommentsFromPullRequest({
         organization,
         repository,
         pullRequestNumber,
-      });
-    },
+      }),
   });
 };

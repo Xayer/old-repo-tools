@@ -13,7 +13,7 @@ export const useFetchTags = ({
   return useQuery({
     queryKey: ["tags", organization, repository],
     queryFn: async ({ queryKey: [, organization, repository] }) => {
-      return (await getTags({ organization, repository })).reverse();
+      return (await getTags({ organization, repository })).slice(-15).reverse();
     },
     enabled,
   });
