@@ -20,7 +20,7 @@ const router = createRouter({
         if (!!localStorage.getItem("token")) {
           next("/");
         } else {
-          next("/auth");
+          next();
         }
       },
     },
