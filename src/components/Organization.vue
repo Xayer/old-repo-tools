@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useFetchTags } from "@/queries/tags";
 import { defineProps, computed } from "vue";
 import WelcomeItem from "@/components/WelcomeItem.vue";

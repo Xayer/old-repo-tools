@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useFetchRefTag } from "@/queries/tags";
 import { useFetchIssues } from "@/queries/issues";
 import {

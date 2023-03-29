@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Organization from "@/components/Organization.vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";

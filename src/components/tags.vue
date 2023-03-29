@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useFetchTags } from "@/queries/tags";
 import { defineProps, computed, ref, watch } from "vue";
 import { useStore } from "vuex";
