@@ -16,6 +16,7 @@ export const useFetchTags = ({
       return (await getTags({ organization, repository })).slice(-15).reverse();
     },
     enabled,
+    refetchOnWindowFocus: false,
   });
 };
 
@@ -32,6 +33,9 @@ export const useFetchTag = ({
     ["tag", organization, repository, tag],
     ({ queryKey: [, organization, repository, tag] }) => {
       return getTag({ organization, repository, tag });
+    },
+    {
+      refetchOnWindowFocus: false,
     }
   );
 };
@@ -52,6 +56,7 @@ export const useFetchRefTag = ({
     queryFn: async ({ queryKey: [, organization, repository, tag] }) => {
       return getRefTag({ organization, repository, tag });
     },
+    refetchOnWindowFocus: false,
     enabled,
   });
 };

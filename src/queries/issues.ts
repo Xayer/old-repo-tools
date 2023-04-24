@@ -14,6 +14,9 @@ export const useFetchIssues = ({
     ["issues", organization, repository, commit],
     ({ queryKey: [, organization, repository, commit] }) => {
       return getIssuesFromCommit({ organization, repository, commit });
+    },
+    {
+      refetchOnWindowFocus: false,
     }
   );
 };

@@ -44,7 +44,8 @@ const tagDescription = computed(() => {
 ${
   pullRequestChanges
     ? `
-  - changes:   ${pullRequestChanges.value}`
+  - changes:
+  ${pullRequestChanges.value}`
     : ""
 }${latestTestReport.value ? `- Test Report: ${latestTestReport.value}` : ""}`;
 });

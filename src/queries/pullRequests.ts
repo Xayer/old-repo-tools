@@ -19,6 +19,7 @@ export const useFetchPullRequestFromRefTag = ({
 }) => {
   return useQuery({
     queryKey: ["PrFromRefTag", organization, repository, tag],
+    refetchOnWindowFocus: false,
     enabled,
     queryFn: async ({ queryKey: [, organization, repository, tag] }) =>
       await getRefTag({ organization, repository, tag })

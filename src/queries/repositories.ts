@@ -10,6 +10,7 @@ export const useFetchAllRepositoriesForOrganization = ({
 }) => {
   return useQuery({
     queryKey: ["allRepositories", organization],
+    refetchOnWindowFocus: false,
     queryFn: async ({ queryKey: [, organization] }) => {
       return await getAllRepositoriesForOrganization({ organization });
     },
