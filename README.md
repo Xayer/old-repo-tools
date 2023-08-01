@@ -4,6 +4,13 @@
 
 - [ ] get latest test report
 - [ ] get CPD- lists
+- [ ] get list of PRs still in progress
+  - create a checklist of:
+    - has gotten a review
+    - has been approved
+    - has been e2e tested
+    - is up to date
+    - has any failing tests
 
 ## Recommended IDE Setup
 
