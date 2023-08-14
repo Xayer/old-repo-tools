@@ -5,7 +5,7 @@ import {
   useFetchPullRequestFromRefTag,
   useFetchPullRequestCommentsWithTests,
 } from "@/queries/pullRequests";
-import WelcomeItem from "@/components/WelcomeItem.vue";
+import Item from "@/components/Item.vue";
 import ToolingIcon from "@/components/icons/IconTooling.vue";
 import { useRoute } from "vue-router";
 import { computed } from "vue";

@@ -2,7 +2,7 @@
 import { useFetchTags } from "@/queries/tags";
 import { defineProps, computed, ref, watch } from "vue";
 import { useStore } from "vuex";
-import WelcomeItem from "@/components/WelcomeItem.vue";
+import Item from "@/components/Item.vue";
 import Loader from "@/components/Loader.vue";
 import ToolingIcon from "@/components/icons/IconTooling.vue";
 const props = defineProps(["organization", "repository"]);
@@ -43,7 +43,7 @@ const { isLoading, isFetching, isError, data, error } = useFetchTags({
   <div v-if="isError">Error: {{ error }}</div>
   <div v-if="data">
     <ul>
-      <WelcomeItem v-for="tag in data" :key="tag.name">
+      <Item v-for="tag in data" :key="tag.name">
         <template #icon>
           <ToolingIcon />
         </template>
@@ -59,7 +59,7 @@ const { isLoading, isFetching, isError, data, error } = useFetchTags({
             :value="tag.name"
           />
         </div>
-      </WelcomeItem>
+      </Item>
     </ul>
   </div>
 </template>

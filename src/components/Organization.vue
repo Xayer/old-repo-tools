@@ -1,7 +1,7 @@
 <script setup>
 import { useFetchTags } from "@/queries/tags";
 import { defineProps, computed } from "vue";
-import WelcomeItem from "@/components/WelcomeItem.vue";
+import Item from "@/components/Item.vue";
 import Loader from "@/components/Loader.vue";
 import ToolingIcon from "@/components/icons/IconTooling.vue";
 const props = defineProps(["organization", "repository"]);
@@ -27,7 +27,7 @@ const {
   <div v-if="isError">Error: {{ error }}</div>
   <div v-if="repositories">
     <ul>
-      <WelcomeItem v-for="repository in repositories" :key="repository.name">
+      <Item v-for="repository in repositories" :key="repository.name">
         <template #icon>
           <ToolingIcon />
         </template>
@@ -36,7 +36,7 @@ const {
           :to="`/${organization}/${repository.name}/`"
           >{{ repository.name }}</router-link
         >
-      </WelcomeItem>
+      </Item>
     </ul>
   </div>
 </template>
