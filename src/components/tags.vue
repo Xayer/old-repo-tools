@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { useFetchTags } from "@/queries/tags";
-import { defineProps, computed, ref, watch } from "vue";
+import {
+  defineProps,
+  computed,
+  ref,
+  watch,
+  type InputHTMLAttributes,
+} from "vue";
 import { useStore } from "vuex";
 import WelcomeItem from "@/components/WelcomeItem.vue";
 import Loader from "@/components/Loader.vue";
 import ToolingIcon from "@/components/icons/IconTooling.vue";
 const props = defineProps(["organization", "repository"]);
+import type { GithubTag } from "@/api/github";
 
 const organization = computed(() => props.organization);
 const repository = computed(() => props.repository);
@@ -16,14 +23,14 @@ const store = useStore();
 
 const selectedTags = computed(() => store.state.tags.selectedTags);
 
-const isTagChecked = (tag) => {
+const isTagChecked = (tag: GithubTag) => {
   return (selectedTags.value || []).length > 0
     ? selectedTags.value.includes(tag)
     : false;
 };
 
-const updateTags = ({ target: { value, checked } }) => {
-  const newSelectedTags = [...selectedTags.value];
+const updateTags = ({ target: { value, checked } }: EventTarget) => {
+  let newSelectedTags = [...selectedTags.value];
   if (checked) {
     newSelectedTags.push(value);
   } else {
