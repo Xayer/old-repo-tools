@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import Tags from "@/components/Tags.vue";
-import Organization from "@/components/Organization.vue";
-import { computed } from "vue";
+import { computed, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
 
@@ -36,35 +34,10 @@ const resetSelectedTags = () => {
             {{ repository }}
           </RouterLink>
         </nav>
-      </div>
-      <div>
-        <nav>
-          <RouterLink
-            v-if="selectedTags.length && organization && repository"
-            :to="`/${organization}/${repository}/selected-tags/${selectedTags.join(
-              ','
-            )}`"
-            >COMPARE</RouterLink
-          >
-          <a
-            v-if="selectedTags.length && organization && repository"
-            @click.stop.prevent="resetSelectedTags"
-            >X</a
-          >
-        </nav>
+        <nav v-if="!!(organization && repository)"></nav>
       </div>
     </header>
     <hr />
-
-    <Tags
-      v-if="!!(organization && repository)"
-      :organization="organization"
-      :repository="repository"
-    />
-    <Organization
-      v-if="!!organization && !repository"
-      :organization="organization"
-    />
   </aside>
 </template>
 

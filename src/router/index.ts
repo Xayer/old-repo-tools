@@ -31,28 +31,46 @@ const router = createRouter({
       beforeEnter: authCheck,
     },
     {
-      path: "/:organization/:repository/tags/:tag",
-      name: "tag",
-      component: () => import("@/views/Tag.vue"),
-      beforeEnter: authCheck,
-    },
-    {
-      path: "/:organization",
+      path: "/:organization/",
       name: "organization",
       component: () => import("@/views/Organization.vue"),
       beforeEnter: authCheck,
-    },
-    {
-      path: "/:organization/:repository",
-      name: "tags",
-      component: () => import("@/views/Tags.vue"),
-      beforeEnter: authCheck,
-    },
-    {
-      path: "/:organization/:repository/selected-tags/:tags",
-      name: "selected-tags",
-      component: () => import("@/views/SelectedTags.vue"),
-      beforeEnter: authCheck,
+      children: [
+        {
+          path: "/:organization/:repository/",
+          name: "repository",
+          component: () => import("@/views/Repository.vue"),
+          beforeEnter: authCheck,
+          children: [
+            {
+              path: "/:organization/:repository/pulls",
+              name: "pulls",
+              component: () => import("@/views/PullRequests.vue"),
+              beforeEnter: authCheck,
+            },
+            {
+              path: "/:organization/:repository/tags",
+              name: "tags",
+              component: () => import("@/views/Tags.vue"),
+              beforeEnter: authCheck,
+              children: [
+                {
+                  path: "/:organization/:repository/tags/selected/:tags",
+                  name: "selected-tags",
+                  component: () => import("@/views/SelectedTags.vue"),
+                  beforeEnter: authCheck,
+                },
+                {
+                  path: "/:organization/:repository/tags/:tag",
+                  name: "tag",
+                  component: () => import("@/views/Tag.vue"),
+                  beforeEnter: authCheck,
+                },
+              ],
+            },
+          ],
+        },
+      ],
     },
   ],
 });
