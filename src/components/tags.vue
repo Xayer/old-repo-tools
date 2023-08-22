@@ -14,22 +14,26 @@ import ToolingIcon from "@/components/icons/IconTooling.vue";
 const props = defineProps(["organization", "repository"]);
 import type { GithubTag } from "@/api/github";
 
-const organization = computed(() => props.organization);
-const repository = computed(() => props.repository);
+const organization = computed(() => props.organization).value;
+const repository = computed(() => props.repository).value;
 
-const enableQuery = computed(() => !!organization.value && !!repository.value);
+const enableQuery = !!organization.value && !!repository.value;
 
 const store = useStore();
 
 const selectedTags = computed(() => store.state.tags.selectedTags);
 
-const isTagChecked = (tag: GithubTag) => {
+const isTagChecked = (tag: GithubTag["name"]) => {
   return (selectedTags.value || []).length > 0
     ? selectedTags.value.includes(tag)
     : false;
 };
 
-const updateTags = ({ target: { value, checked } }: EventTarget) => {
+const updateTags = ({
+  target: { value, checked },
+}: {
+  target: HTMLInputElement;
+}) => {
   let newSelectedTags = [...selectedTags.value];
   if (checked) {
     newSelectedTags.push(value);
