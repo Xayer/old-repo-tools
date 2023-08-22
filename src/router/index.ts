@@ -1,7 +1,15 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {
+  createRouter,
+  createWebHistory,
+  type RouteLocationNormalized,
+} from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 
-const authCheck = (to, from, next) => {
+const authCheck = (
+  _to: RouteLocationNormalized,
+  _from: RouteLocationNormalized,
+  next: Function
+) => {
   if (localStorage.getItem("token")) {
     next();
   } else {
