@@ -11,6 +11,7 @@
     - has been e2e tested
     - is up to date
     - has any failing tests
+  - parse BE template: https://github.com/cardlay/nebula-core/pull/326
 
 ## Recommended IDE Setup
 
