@@ -29,12 +29,9 @@ const isTagChecked = (tag: GithubTag["name"]) => {
     : false;
 };
 
-const updateTags = ({
-  target: { value, checked },
-}: {
-  target: HTMLInputElement;
-}) => {
+const updateTags = (payload: Event) => {
   let newSelectedTags = [...selectedTags.value];
+  const { checked, value } = payload.target as HTMLInputElement;
   if (checked) {
     newSelectedTags.push(value);
   } else {

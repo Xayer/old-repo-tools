@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Tags from "@/components/tags.vue";
 import Organization from "@/components/Organization.vue";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
