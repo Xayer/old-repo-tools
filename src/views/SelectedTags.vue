@@ -7,7 +7,7 @@ const repository = computed(() => useRoute().params.repository);
 const organization = computed(() => useRoute().params.organization);
 
 const tags = computed(() => {
-  const tags = useRoute().params.tags;
+  const tags = useRoute().params.tags as string;
   return tags ? tags.split(",") : [];
 });
 </script>

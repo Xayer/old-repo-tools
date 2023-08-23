@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useFetchTags } from "@/queries/tags";
 import { defineProps, computed } from "vue";
 import WelcomeItem from "@/components/WelcomeItem.vue";
 import Loader from "@/components/Loader.vue";
@@ -7,9 +6,9 @@ import ToolingIcon from "@/components/icons/IconTooling.vue";
 const props = defineProps(["organization", "repository"]);
 import { useFetchAllRepositoriesForOrganization } from "@/queries/repositories";
 
-const organization = computed(() => props.organization);
+const organization = computed(() => props.organization).value;
 
-const enableQuery = computed(() => !!organization.value);
+const enableQuery = computed(() => !!organization.value).value;
 
 const {
   isLoading,

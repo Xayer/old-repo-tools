@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { useFetchTags } from "@/queries/tags";
-import {
-  defineProps,
-  computed,
-  ref,
-  watch,
-  type InputHTMLAttributes,
-} from "vue";
+import { defineProps, computed } from "vue";
 import { useStore } from "vuex";
 import WelcomeItem from "@/components/WelcomeItem.vue";
 import Loader from "@/components/Loader.vue";
