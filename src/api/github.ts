@@ -255,7 +255,7 @@ export const getRefTag = async ({
   ).then(async (response) => {
     if (response.status === 200) {
       // only return the general tags, and not the web-design-token, web-ui, and web-portal specific tags
-      return (await response.json()) as GithubRefTag[];
+      return (await response.json()) as GithubRefTag;
     } else {
       throw new Error("Failed to fetch ref tag");
     }

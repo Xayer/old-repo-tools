@@ -3,6 +3,7 @@ import {
   getIssuesFromCommit,
   getRefTag,
   getTag,
+  type GithubRefTag,
 } from "@/api/github";
 import { useQuery } from "@tanstack/vue-query";
 
@@ -23,8 +24,8 @@ export const useFetchPullRequestFromRefTag = ({
     enabled,
     queryFn: async ({ queryKey: [, organization, repository, tag] }) =>
       await getRefTag({ organization, repository, tag })
-        .then((refTag) =>
-          getTag({ organization, repository, tag }).then((tag) =>
+        .then(({ object: { sha: refSha } }) =>
+          getTag({ organization, repository, tag: refSha }).then((tag) =>
             getIssuesFromCommit({
               organization,
               repository,
