@@ -11,8 +11,9 @@ import { useStore } from "vuex";
 import WelcomeItem from "@/components/WelcomeItem.vue";
 import Loader from "@/components/Loader.vue";
 import ToolingIcon from "@/components/icons/IconTooling.vue";
-const props = defineProps(["organization", "repository"]);
 import type { GithubTag } from "@/api/github";
+
+const props = defineProps(["organization", "repository"]);
 
 const organization = computed(() => props.organization).value;
 const repository = computed(() => props.repository).value;

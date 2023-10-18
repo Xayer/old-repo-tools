@@ -1,5 +1,10 @@
-export default {
-  namespaced: true,
+import { createStore } from "vuex";
+
+interface State {
+  selectedTags: string[];
+}
+
+const store = createStore<State>({
   state: () => ({
     selectedTags: [],
   }),
@@ -22,4 +27,6 @@ export default {
       state.selectedTags = [];
     },
   },
-};
+});
+
+export default store;

@@ -10,6 +10,7 @@ import ToolingIcon from "@/components/icons/IconTooling.vue";
 import { useRoute } from "vue-router";
 import { computed } from "vue";
 import Loader from "@/components/Loader.vue";
+import type { Comment } from "@/api/github";
 
 const props = defineProps(["organization", "repository", "tag"]);
 
@@ -88,9 +89,13 @@ const { data: commentsWithTests } = useFetchPullRequestCommentsWithTests({
 });
 
 const latestTestReport = computed(() => {
-  return commentsWithTests.value && commentsWithTests.value?.length > 0
-    ? commentsWithTests.value.at(-1).body.match(/Allure report: (.*)/)[1] || ""
-    : "";
+  const comments: Comment[] = commentsWithTests.value as Comment[];
+  if (!comments || comments?.length == 0) return "";
+
+  const matches = (comments.at(-1) as Comment).body.match(
+    /Allure report: (.*)/
+  );
+  return matches ? matches[1] : "";
 });
 </script>
 
