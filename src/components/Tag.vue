@@ -58,7 +58,7 @@ const versionLink = computed(() =>
 
 const pullRequestNumber = computed(() => {
   if (!pullRequestData.value) return null;
-  return pullRequestData.value.number;
+  return `${pullRequestData.value.number}`;
 });
 
 const {
@@ -66,10 +66,11 @@ const {
   isLoading,
   isFetching,
   isError,
+  error,
 } = useFetchPullRequestFromRefTag({
-  organization,
-  repository,
-  tag: currentTag,
+  organization: organization.value,
+  repository: repository.value,
+  tag: currentTag.value,
   enabled: !!organization.value && !!repository.value && !!currentTag.value,
 });
 
@@ -80,10 +81,10 @@ const shouldFetchComments = computed(() => {
 });
 
 const { data: commentsWithTests } = useFetchPullRequestCommentsWithTests({
-  organization,
-  repository,
-  pullRequestNumber: pullRequestNumber,
-  enabled: shouldFetchComments,
+  organization: organization.value,
+  repository: repository.value,
+  pullRequestNumber: pullRequestNumber.value as string,
+  enabled: shouldFetchComments.value && !!pullRequestNumber.value,
 });
 
 const latestTestReport = computed(() => {

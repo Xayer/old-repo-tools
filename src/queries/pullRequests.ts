@@ -24,13 +24,12 @@ export const useFetchPullRequestFromRefTag = ({
     queryFn: async ({ queryKey: [, organization, repository, tag] }) =>
       await getRefTag({ organization, repository, tag })
         .then((refTag) =>
-          getTag({ organization, repository, tag: refTag.object.sha }).then(
-            (tag) =>
-              getIssuesFromCommit({
-                organization,
-                repository,
-                commit: tag.object.sha,
-              })
+          getTag({ organization, repository, tag }).then((tag) =>
+            getIssuesFromCommit({
+              organization,
+              repository,
+              commit: tag.object.sha,
+            })
           )
         )
         .then(({ items: [pullRequest] }) => pullRequest),
@@ -60,9 +59,9 @@ export const useFetchPullRequestCommentsWithTests = ({
       queryKey: [, organization, repository, pullRequestNumber],
     }) =>
       await getCommentsFromPullRequest({
-        organization,
-        repository,
-        pullRequestNumber,
+        organization: organization as string,
+        repository: repository as string,
+        pullRequestNumber: pullRequestNumber as string,
       }),
   });
 };

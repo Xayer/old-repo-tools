@@ -1,7 +1,2 @@
-<script setup lang="ts">
-import Organization from "@/components/Organization.vue";
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-const organization = computed(() => useRoute().params.organization);
-</script>
+<script setup lang="ts"></script>
 <template>Select a Repository from the left</template>

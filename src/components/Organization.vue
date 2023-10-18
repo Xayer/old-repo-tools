@@ -18,8 +18,8 @@ const {
   data: repositories,
   error,
 } = useFetchAllRepositoriesForOrganization({
-  organization: organization,
-  enabled: enableQuery,
+  organization: organization.value,
+  enabled: enableQuery.value,
 });
 </script>
 <template>
