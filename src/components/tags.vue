@@ -17,7 +17,7 @@ import type { GithubTag } from "@/api/github";
 const organization = computed(() => props.organization).value;
 const repository = computed(() => props.repository).value;
 
-const enableQuery = !!organization.value && !!repository.value;
+const enableQuery = !!organization && !!repository;
 
 const store = useStore();
 
