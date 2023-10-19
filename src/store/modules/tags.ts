@@ -6,6 +6,7 @@ interface State {
 }
 
 const store = {
+  namespaced: true,
   state: () => ({
     selectedTags: [],
   }),

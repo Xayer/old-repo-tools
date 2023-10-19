@@ -42,13 +42,9 @@ const tagDescription = computed(() => {
   return `- ${currentTag.value} ${
     jiraTasks.value ? `- ${jiraTasks.value.join(", ")}` : ""
   } (${pullRequestReference.value})
-${
-  pullRequestChanges
-    ? `
-  - changes:
-  ${pullRequestChanges.value}`
-    : ""
-}${latestTestReport.value ? `- Test Report: ${latestTestReport.value}` : ""}`;
+${pullRequestChanges ? `    ${pullRequestChanges.value}` : ""}${
+    latestTestReport.value ? `- Test Report: ${latestTestReport.value}` : ""
+  }`;
 });
 
 const versionLink = computed(() =>
