@@ -1,0 +1,1 @@
+import{T as e}from"./Tag-4d112da2.js";import{d as i,c as o,i as p,u as a,o as c,j as t}from"./index-5772a8e4.js";const l=i({__name:"Tag",setup(m){const r=o(()=>t().params.repository),s=o(()=>t().params.organization),n=o(()=>t().params.tag);return(g,u)=>(c(),p(e,{repository:a(r),organization:a(s),tag:a(n)},null,8,["repository","organization","tag"]))}});export{l as default};
