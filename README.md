@@ -2,8 +2,10 @@
 
 ### Todo
 
-- [ ] get latest test report
-- [ ] get CPD- lists
+- [X] get latest test report
+- [X] get CPD- lists
+- [ ] add pagination to repositories (and possiblity filtering)
+- [ ] favourite repositories?
 - [ ] get list of PRs still in progress
   - create a checklist of:
     - has gotten a review
