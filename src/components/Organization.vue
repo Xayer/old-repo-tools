@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, computed } from "vue";
+import { computed } from "vue";
 import WelcomeItem from "@/components/WelcomeItem.vue";
 import Loader from "@/components/Loader.vue";
 import ToolingIcon from "@/components/icons/IconTooling.vue";
