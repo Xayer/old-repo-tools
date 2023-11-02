@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import Tag from "@/components/Tag.vue";
 import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRouteQuery } from "@vueuse/router";
 
-const repository = computed(() => useRoute().params.repository);
-const organization = computed(() => useRoute().params.organization);
-const tag = computed(() => useRoute().params.tag);
+const repository = useRouteQuery("repository");
+const organization = useRouteQuery("organization");
+const tag = useRouteQuery("tag");
 </script>
 
 <template>

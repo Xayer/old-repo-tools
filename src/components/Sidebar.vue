@@ -2,11 +2,11 @@
 import Tags from "@/components/tags.vue";
 import Organization from "@/components/Organization.vue";
 import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRouteQuery } from "@vueuse/router";
 import { useStore } from "vuex";
 
-const repository = computed(() => useRoute().params.repository);
-const organization = computed(() => useRoute().params.organization);
+const repository = useRouteQuery("repository");
+const organization = useRouteQuery("organization");
 const selectedTags = computed(() => useStore().state.tags.selectedTags);
 const store = useStore();
 

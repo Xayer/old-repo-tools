@@ -2,9 +2,10 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import Tag from "@/components/Tag.vue";
+import { useRouteQuery } from "@vueuse/router";
 
-const repository = computed(() => useRoute().params.repository);
-const organization = computed(() => useRoute().params.organization);
+const repository = useRouteQuery("repository");
+const organization = useRouteQuery("organization");
 
 const tags = computed(() => {
   const tags = useRoute().params.tags as string;

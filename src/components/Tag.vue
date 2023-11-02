@@ -7,7 +7,6 @@ import {
 } from "@/queries/pullRequests";
 import WelcomeItem from "@/components/WelcomeItem.vue";
 import ToolingIcon from "@/components/icons/IconTooling.vue";
-import { useRoute } from "vue-router";
 import { computed } from "vue";
 import Loader from "@/components/Loader.vue";
 import type { Comment } from "@/api/github";
