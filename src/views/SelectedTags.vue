@@ -8,7 +8,7 @@ const repository = useRouteQuery("repository");
 const organization = useRouteQuery("organization");
 
 const tags = computed(() => {
-  const tags = useRoute().params.tags as string;
+  const tags = useRouteQuery("tags").value as string;
   return tags ? tags.split(",") : [];
 });
 </script>

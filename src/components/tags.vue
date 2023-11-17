@@ -59,7 +59,11 @@ const { isLoading, isFetching, isError, data, error } = useFetchTags({
         <div class="tag-wrapper">
           <router-link
             v-if="!!organization && !!repository"
-            :to="`/${organization}/${repository}/tags/${tag.name}`"
+            :to="{
+              name: 'repository',
+              params: { organization, repository: repository },
+              query: { organization, repository: repository },
+            }"
             >{{ tag.name }}</router-link
           ><input
             type="checkbox"

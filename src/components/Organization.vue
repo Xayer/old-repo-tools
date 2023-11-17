@@ -33,7 +33,11 @@ const {
         </template>
         <router-link
           v-if="!!organization && !!repository"
-          :to="`/${organization}/${repository.name}/`"
+          :to="{
+            name: 'repository',
+            params: { organization, repository: repository.name },
+            query: { organization, repository: repository.name },
+          }"
           >{{ repository.name }}</router-link
         >
       </WelcomeItem>

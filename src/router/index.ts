@@ -39,20 +39,20 @@ const router = createRouter({
       beforeEnter: authCheck,
     },
     {
-      path: "/:organization/:repository/tags/:tag",
-      name: "tag",
-      component: () => import("@/views/Tag.vue"),
-      beforeEnter: authCheck,
-    },
-    {
       path: "/:organization",
       name: "organization",
       component: () => import("@/views/Organization.vue"),
       beforeEnter: authCheck,
     },
     {
+      path: "/:organization/:repository/tags/:tag",
+      name: "tag",
+      component: () => import("@/views/Tag.vue"),
+      beforeEnter: authCheck,
+    },
+    {
       path: "/:organization/:repository",
-      name: "tags",
+      name: "repository",
       component: () => import("@/views/Tags.vue"),
       beforeEnter: authCheck,
     },

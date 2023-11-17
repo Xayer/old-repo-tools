@@ -24,14 +24,22 @@ const resetSelectedTags = () => {
           <RouterLink
             v-if="organization"
             class="green"
-            :to="`/${organization}`"
+            :to="{
+              name: 'organization',
+              params: { organization },
+              query: { organization },
+            }"
           >
             {{ organization }}
           </RouterLink>
           <RouterLink
             class="green"
             v-if="repository"
-            :to="`/${organization}/${repository}`"
+            :to="{
+              name: 'repository',
+              params: { organization, repository },
+              query: { organization, repository },
+            }"
           >
             {{ repository }}
           </RouterLink>
@@ -41,9 +49,15 @@ const resetSelectedTags = () => {
         <nav>
           <RouterLink
             v-if="selectedTags.length && organization && repository"
-            :to="`/${organization}/${repository}/selected-tags/${selectedTags.join(
-              ','
-            )}`"
+            :to="{
+              name: 'selected-tags',
+              params: {
+                organization,
+                repository,
+                tags: selectedTags.join(','),
+              },
+              query: { organization, repository, tags: selectedTags.join(',') },
+            }"
             >COMPARE</RouterLink
           >
           <a
