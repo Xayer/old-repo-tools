@@ -62,7 +62,6 @@ const { isLoading, isFetching, isError, data, error } = useFetchTags({
             :to="{
               name: 'repository',
               params: { organization, repository: repository },
-              query: { organization, repository: repository },
             }"
             >{{ tag.name }}</router-link
           ><input

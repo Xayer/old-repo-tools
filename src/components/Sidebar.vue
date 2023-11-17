@@ -38,7 +38,6 @@ const resetSelectedTags = () => {
             :to="{
               name: 'repository',
               params: { organization, repository },
-              query: { organization, repository },
             }"
           >
             {{ repository }}
@@ -56,7 +55,6 @@ const resetSelectedTags = () => {
                 repository,
                 tags: selectedTags.join(','),
               },
-              query: { organization, repository, tags: selectedTags.join(',') },
             }"
             >COMPARE</RouterLink
           >
