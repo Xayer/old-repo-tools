@@ -1,4 +1,6 @@
 import { getGithubAuthHeader, getTokenFromStorage } from '@/config'
+import type { GithubRepositoriesFiltering } from '@/types/github'
+import { Octokit } from '@octokit/rest'
 
 export type GithubRefTag = {
     ref: string
@@ -333,5 +335,28 @@ export const getAllRepositoriesForOrganization = async ({
         } else {
             throw new Error('Failed to get all repositories for organization')
         }
+    })
+}
+
+export const githubApiInstance = new Octokit({
+    auth: getTokenFromStorage(),
+})
+
+export const getAllRepositoriesFromOrganization = async ({
+    organization,
+    searchQuery,
+    per_page,
+    page,
+    direction,
+}: {
+    organization: string
+} & GithubRepositoriesFiltering) => {
+    return githubApiInstance.rest.search.repos({
+        q: `${
+            !!searchQuery ? `${searchQuery} in:name,description` : ''
+        } org:${organization}`,
+        per_page,
+        page,
+        direction,
     })
 }

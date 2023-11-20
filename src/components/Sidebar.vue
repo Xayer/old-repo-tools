@@ -27,7 +27,6 @@ const resetSelectedTags = () => {
                         :to="{
                             name: 'organization',
                             params: { organization },
-                            query: { organization },
                         }"
                     >
                         {{ organization }}

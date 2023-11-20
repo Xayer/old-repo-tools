@@ -2,7 +2,7 @@
     <span></span>
 </template>
 
-<style>
+<style scoped>
 span {
     position: absolute;
     width: 100%;
