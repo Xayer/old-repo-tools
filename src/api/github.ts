@@ -206,6 +206,8 @@ export const getTags = async ({
                 }
                 return acc
             }, []) as GithubTag[]
+        } else if (response.status === 404) {
+            throw new Error('no tags found')
         } else {
             throw new Error('failed to fetch tags')
         }

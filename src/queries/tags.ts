@@ -12,6 +12,7 @@ export const useFetchTags = ({
 }) => {
     return useQuery({
         queryKey: ['tags', organization, repository],
+        retry: 0,
         queryFn: async ({ queryKey: [, organization, repository] }) => {
             return (await getTags({ organization, repository }))
                 .slice(-15)

@@ -122,8 +122,12 @@ export default {
     },
     methods: {
         onGridReady: function (params: GridReadyEvent) {
-            this.gridApi = params.api
-            this.gridColumnApi = params.columnApi
+            if (params.api) {
+                this.gridApi = params.api
+            }
+            if (params.columnApi) {
+                this.gridColumnApi = params.columnApi
+            }
         },
         dataSource: () => {
             return {

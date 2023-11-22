@@ -49,7 +49,7 @@ const { isLoading, isFetching, isError, data, error } = useFetchTags({
 </script>
 <template>
     <div v-if="isLoading || isFetching"><Loader /></div>
-    <div v-if="isError">Error: {{ error }}</div>
+    <div v-if="isError">{{ error }}</div>
     <div v-if="data">
         <ul>
             <WelcomeItem v-for="tag in data" :key="tag.name">
@@ -60,8 +60,12 @@ const { isLoading, isFetching, isError, data, error } = useFetchTags({
                     <router-link
                         v-if="!!organization && !!repository"
                         :to="{
-                            name: 'repository',
-                            params: { organization, repository: repository },
+                            name: 'tag',
+                            params: {
+                                organization,
+                                repository: repository,
+                                tag: tag.name,
+                            },
                         }"
                         >{{ tag.name }}</router-link
                     ><input
