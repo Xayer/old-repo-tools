@@ -2,10 +2,10 @@
 
 ### Todo
 
-- [X] get latest test report
-- [X] get CPD- lists
+- [x] get latest test report
+- [x] get CPD- lists
 - [ ] add pagination to repositories (and possiblity filtering)
-- [ ] favourite repositories?
+- [ ] favourite repositories/organisations?
 - [ ] get list of PRs still in progress
   - create a checklist of:
     - has gotten a review
@@ -14,6 +14,7 @@
     - is up to date
     - has any failing tests
   - parse BE template: https://github.com/cardlay/nebula-core/pull/326
+  -
 
 ## Recommended IDE Setup
 

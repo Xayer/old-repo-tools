@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-import Tag from "@/components/Tag.vue";
+import { computed } from 'vue'
+import Tag from '@/components/Tag.vue'
+import { useRouteParams } from '@vueuse/router'
 
-const repository = computed(() => useRoute().params.repository);
-const organization = computed(() => useRoute().params.organization);
+const repository = useRouteParams('repository')
+const organization = useRouteParams('organization')
 
 const tags = computed(() => {
-  const tags = useRoute().params.tags as string;
-  return tags ? tags.split(",") : [];
-});
+    const tags = useRouteParams('tags').value as string
+    return tags ? tags.split(',') : []
+})
 </script>
 <template>
-  <div v-if="!!(organization && repository && tags)">
-    <Tag
-      :repository="repository"
-      :organization="organization"
-      v-for="tag in tags"
-      :key="tag"
-      :tag="tag"
-    />
-  </div>
-  <p v-else>No tags found</p>
+    <div v-if="!!(organization && repository && tags)">
+        <Tag
+            :repository="repository"
+            :organization="organization"
+            v-for="tag in tags"
+            :key="tag"
+            :tag="tag"
+        />
+    </div>
+    <p v-else>No tags found</p>
 </template>

@@ -1,37 +1,37 @@
-import type { GithubTag } from "@/api/github";
-import type { ActionContext } from "vuex";
+import type { GithubTag } from '@/api/github'
+import type { ActionContext } from 'vuex'
 
 interface State {
-  selectedTags: string[];
+    selectedTags: string[]
 }
 
 const store = {
-  namespaced: true,
-  state: () => ({
-    selectedTags: [],
-  }),
-  getters: {
-    selectedTags: (state: State) => state.selectedTags,
-  },
-  actions: {
-    setSelectedTags(
-      { commit }: ActionContext<State, {}>,
-      tags: GithubTag["name"][]
-    ) {
-      commit("setSelectedTags", tags);
+    namespaced: true,
+    state: () => ({
+        selectedTags: [],
+    }),
+    getters: {
+        selectedTags: (state: State) => state.selectedTags,
     },
-    resetTags({ commit }: ActionContext<State, {}>) {
-      commit("resetTags");
+    actions: {
+        setSelectedTags(
+            { commit }: ActionContext<State, {}>,
+            tags: GithubTag['name'][]
+        ) {
+            commit('setSelectedTags', tags)
+        },
+        resetTags({ commit }: ActionContext<State, {}>) {
+            commit('resetTags')
+        },
     },
-  },
-  mutations: {
-    setSelectedTags(state: State, tags: GithubTag["name"][]) {
-      state.selectedTags = tags;
+    mutations: {
+        setSelectedTags(state: State, tags: GithubTag['name'][]) {
+            state.selectedTags = tags
+        },
+        resetTags: (state: State) => {
+            state.selectedTags = []
+        },
     },
-    resetTags: (state: State) => {
-      state.selectedTags = [];
-    },
-  },
-};
+}
 
-export default store;
+export default store
